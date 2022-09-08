@@ -1,5 +1,9 @@
 # Diario Online Journal: Django Backend
 
+Hello, welcome to our flutter frontend! Refer to the backend repo for login credentials.
+
+- View the flutter frontend here: https://github.com/angnicholas/diario_flutter
+- View the react frontend here: https://github.com/angnicholas/diario_react
 
 ### Instructions for setup
 1. Install requirements with `pip3 install -r requirements.txt`
