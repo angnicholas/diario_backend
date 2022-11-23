@@ -43,6 +43,11 @@ class Command(BaseCommand):
                 date_updated=datetime.datetime(2022, 9, 5, 12, 0, 0),
             )
 
+        je = JournalEntry.objects.get(pk=1)
+        je.date_created = datetime.datetime(2022, 9, 5, 12, 0, 0)
+        je.date_updated = datetime.datetime(2022, 9, 5, 12, 0, 0)
+        je.save()
+
         with open('sample_data/for_demo/neutral4 (meeting denise).txt', mode='r') as f:
             text = f.read()
             JournalEntry.objects.create(
