@@ -11,7 +11,7 @@ from rest_framework import status
 from django.shortcuts import render
 
 from journalentry.utils.ml_dispatch import populate_ml_fields
-from authapi.permissions import IsPatient
+from authapi.permissions import IsPatient, IsUser, JournalBelongsToUser
 from .serializers import JournalEntrySerializer
 from .models import JournalEntry
 
@@ -38,7 +38,7 @@ class ListJournalEntry(ListAPIView):
 
 
 class SingleJournalEntry(RetrieveAPIView):
-    permission_classes = [IsPatient]
+    permission_classes = [IsUser, JournalBelongsToUser]
     queryset = JournalEntry.objects.all()
     serializer_class = JournalEntrySerializer
 
