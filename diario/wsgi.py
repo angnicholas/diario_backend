@@ -7,6 +7,7 @@ For more information on this file, see
 https://docs.djangoproject.com/en/4.0/howto/deployment/wsgi/
 """
 
+from django.core.wsgi import get_wsgi_application
 import os
 import environ
 env = environ.Env(DEBUG=(bool, False))
@@ -15,7 +16,6 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 PROJECT_NAME = env('PROJECT_NAME')
 
-from django.core.wsgi import get_wsgi_application
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', f'{PROJECT_NAME}.settings')
 

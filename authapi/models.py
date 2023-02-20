@@ -9,6 +9,7 @@ from authapi.options import ROLE_LIST
 
 MAX_LENGTH = 255
 
+
 class UserManager(BaseUserManager):
 
     def create_user(self, username, display_name, password=None, **extra_fields):
@@ -24,23 +25,25 @@ class UserManager(BaseUserManager):
         user.save(using=self.db)
         return user
 
+
 class User(AbstractBaseUser, PermissionsMixin):
-    
+
     """Custom User model"""
     USERNAME_FIELD = 'username'
-    username = models.CharField(max_length=MAX_LENGTH, unique = True)
+    username = models.CharField(max_length=MAX_LENGTH, unique=True)
     display_name = models.CharField(max_length=MAX_LENGTH)
-    therapist = models.ForeignKey('User', on_delete=models.RESTRICT, blank=True, null=True) 
-    #don't allow therapist to delete acct if they still have patients
+    therapist = models.ForeignKey(
+        'User', on_delete=models.RESTRICT, blank=True, null=True)
+    # don't allow therapist to delete acct if they still have patients
 
-    role = models.CharField(choices=ROLE_LIST, max_length=MAX_LENGTH, default="NN")
-    # registered_institutions = models.ManyToManyField("self", blank=True)
+    role = models.CharField(
+        choices=ROLE_LIST, max_length=MAX_LENGTH, default="NN")
     created_at = models.DateTimeField(default=timezone.now)
 
     objects = UserManager()
 
     REQUIRED_FIELDS = ['role']
-    
+
     @property
     def average_sentiment(self):
         from journalentry.models import JournalEntry
@@ -54,12 +57,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         tp = tp / cnt
         tn = tn / cnt
 
-        return tp - tn #positive - negative (-1 to 1)
+        return tp - tn  # positive - negative (-1 to 1)
 
     @property
     def latest_sentiment(self):
         from journalentry.models import JournalEntry
-        je = JournalEntry.objects.filter(patient=self.pk).latest('date_updated')
+        je = JournalEntry.objects.filter(
+            patient=self.pk).latest('date_updated')
         return je.sentiment['positive'] - je.sentiment['negative']
 
     @property
@@ -67,7 +71,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         from journalentry.models import JournalEntry
         return JournalEntry.objects.filter(patient=self.pk).\
             aggregate(Max('date_updated'))['date_updated__max']
-        
+
     def __str__(self):
         return f"{self.username!r}, {self.role}"
 

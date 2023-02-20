@@ -5,20 +5,21 @@ from ml_kit.compiler import SENTIMENT_PREDICTOR, SUMMARIZER
 from glob import glob
 import datetime
 
+
 class Command(BaseCommand):
     def handle(self, *args, **options):
         hashword = 'pbkdf2_sha256$320000$CEJpLuAsuWmkDOu7Nc4rZL$+MSj/IQQjumeMZNtOr8z3lI0S0bSwLmGCtgHUJiLw8M='
-        #test1234!
+        # test1234!
 
         User.objects.create(
-            password = hashword,
+            password=hashword,
             username='alex',
             display_name='Alex',
             role='TP',
         )
 
         User.objects.create(
-            password = hashword,
+            password=hashword,
             username='ben',
             display_name='Ben',
             role='PT',
@@ -32,7 +33,7 @@ class Command(BaseCommand):
         #     role='PT',
         #     therapist=User.objects.get(pk=1),
         # )
-        
+
         with open('sample_data/new_sample_data/positive.txt', mode='r') as f:
             text = f.read()
             JournalEntry.objects.create(
@@ -76,7 +77,7 @@ class Command(BaseCommand):
         #         date_created=datetime.datetime(2022, 9, 7, 12, 0, 0),
         #         date_updated=datetime.datetime(2022, 9, 7, 12, 0, 0)
         #     )
-        
+
         # with open('sample_data/for_demo/neutral3 (covid).txt', mode='r') as f:
         #     text = f.read()
         #     JournalEntry.objects.create(
@@ -94,14 +95,9 @@ class Command(BaseCommand):
         #         text=text,
         #         date_created=datetime.datetime(2022, 9, 7, 12, 0, 0)
         #     )
-            
-        #compute sentiment and summary
+
+        # compute sentiment and summary
         for je in JournalEntry.objects.all():
             je.sentiment = SENTIMENT_PREDICTOR(je.text)
             je.summary = SUMMARIZER(je.text)
             je.save()
-
-
-
-
-

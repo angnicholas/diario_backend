@@ -4,6 +4,8 @@ from authapi.options import ROLE_PATIENT, ROLE_THERAPIST
 '''
 Permissions as implemented by the AuthorityMatrix.
 '''
+
+
 class IsPatient(BasePermission):
     def has_permission(self, request, view):
         if request.user.is_anonymous:
@@ -19,8 +21,7 @@ class IsTherapist(BasePermission):
 
 
 class IsUser(BasePermission):
-    def has_permission(self, request, view):        
+    def has_permission(self, request, view):
         if request.user.is_anonymous:
             return False
         return request.user.role in [ROLE_PATIENT, ROLE_THERAPIST]
-

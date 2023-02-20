@@ -6,8 +6,8 @@ from ml_kit.summary.summary_dummy import DummySummarizer
 
 # DEBUG = True
 
-SENTIMENT_PREDICTOR = SentimentPredictor() 
-# SUMMARIZER = Summarizer() 
+SENTIMENT_PREDICTOR = SentimentPredictor()
+# SUMMARIZER = Summarizer()
 
 # SENTIMENT_PREDICTOR = DummySentimentPredictor()
 SUMMARIZER = DummySummarizer()

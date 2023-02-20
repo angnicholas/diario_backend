@@ -11,6 +11,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 PROJECT_NAME = env('PROJECT_NAME')
 
+
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', f'{PROJECT_NAME}.settings')

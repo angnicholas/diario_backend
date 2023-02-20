@@ -5,6 +5,6 @@ from .views import (
 )
 
 urlpatterns = [
-   path('patient/list/', ListPatients.as_view()),
-   path('journalentries/<int:pk>/', ListJournalEntriesByPatient.as_view()),
+    path('patient/list/', ListPatients.as_view()),
+    path('journalentries/<int:pk>/', ListJournalEntriesByPatient.as_view()),
 ]

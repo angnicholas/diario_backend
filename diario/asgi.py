@@ -15,6 +15,7 @@ env = environ.Env(DEBUG=(bool, False))
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', f'{env("PROJECT_NAME")}.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE',
+                      f'{env("PROJECT_NAME")}.settings')
 
 application = get_asgi_application()

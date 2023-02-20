@@ -7,11 +7,12 @@ import csv
 import urllib.request
 from typing import List
 
-#git clone https://huggingface.co/cardiffnlp/twitter-roberta-base-sentiment
-#Then put inside the following folder
+# git clone https://huggingface.co/cardiffnlp/twitter-roberta-base-sentiment
+# Then put inside the following folder
 HANDLE = 'ml_kit/sentiment/twitter-roberta-base-sentiment'
 SENTENCE_SEPARATOR = '. '
 MAX_MODEL_LEN = 512
+
 
 class SentimentPredictor():
 
@@ -23,15 +24,15 @@ class SentimentPredictor():
     # Preprocess text (username and link placeholders)
     @staticmethod
     def preprocess(text):
-        new_text = []   
-    
+        new_text = []
+
         for t in text.split(" "):
             t = '@user' if t.startswith('@') and len(t) > 1 else t
             t = 'http' if t.startswith('http') else t
             new_text.append(t)
         return " ".join(new_text)
 
-    def __call__(self, text:str) -> dict:
+    def __call__(self, text: str) -> dict:
         # sentences = text.split(SENTENCE_SEPARATOR)
 
         # does average sentiment
@@ -39,16 +40,14 @@ class SentimentPredictor():
         text = self.preprocess(text)
         sentences = text.split(SENTENCE_SEPARATOR)
         encoded_input = self.tokenizer(
-            sentences, 
+            sentences,
             padding=True,
-            return_tensors='pt', 
-            truncation=True, 
+            return_tensors='pt',
+            truncation=True,
             max_length=MAX_MODEL_LEN
         )
         output = self.model(**encoded_input)
         scores = output[0].detach().numpy()
-        softmaxed = softmax(scores, axis=1)    
+        softmaxed = softmax(scores, axis=1)
         averaged_scores = np.mean(softmaxed, axis=0)
-        return {l:float(s) for l,s  in zip(self.labels, averaged_scores)}
-
-
+        return {l: float(s) for l, s in zip(self.labels, averaged_scores)}
